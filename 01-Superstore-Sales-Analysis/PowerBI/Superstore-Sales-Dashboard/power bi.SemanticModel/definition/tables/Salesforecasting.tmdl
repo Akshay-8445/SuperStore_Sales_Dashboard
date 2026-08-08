@@ -1,0 +1,27 @@
+table Salesforecasting
+	lineageTag: 77b9406d-ed5d-4ec8-9b11-536e35b343cf
+
+	column 'Order Date'
+		lineageTag: c990bc55-716f-44d4-b058-fb9785659acd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: SuperStore_Sales_Dataset[Order Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ' Total Sales'
+		lineageTag: c1f77720-5cad-4f4c-89d9-77ae5661aa31
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ Total Sales]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Salesforecasting = calculated
+		mode: import
+		source = SUMMARIZE('SuperStore_Sales_Dataset', 'SuperStore_Sales_Dataset'[Order Date], " Total Sales", SUM(SuperStore_Sales_Dataset[Sales]))
+
+	annotation PBI_Id = 03cc104c89e64911968e7c0bd8b9bd90
+
